@@ -1,12 +1,475 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="dynamic-title"></title>
+    <title>404 - 길을 잃었어요! (´･ω･`)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a2e;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: twinkle 2s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        .cat {
+            font-size: 6em;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+        
+        h1 {
+            color: #ffb6c1;
+            font-size: 4em;
+            margin: 20px 0;
+            text-shadow: 0 0 20px #ffb6c1;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #ffb6c1; }
+            to { text-shadow: 0 0 30px #ffb6c1, 0 0 40px #ffb6c1; }
+        }
+        
+        .message {
+            font-size: 1.4em;
+            color: #ffc0cb;
+            margin-bottom: 20px;
+            animation: fadeIn 3s ease-in;
+        }
+        
+        .kawaii-face {
+            font-size: 2em;
+            margin: 20px 0;
+            animation: blink 4s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0.1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: shoot 3s linear infinite;
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100px) translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(100vh);
+                opacity: 0;
+            }
+        }
+        
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            font-size: 4em;
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes moonGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px #ffb6c1); }
+            50% { filter: drop-shadow(0 0 20px #ffb6c1) drop-shadow(0 0 30px #ffc0cb); }
+        }
+        
+        .retry-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 182, 193, 0.15);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.3);
+            margin: 8px;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.5);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-checking {
+            background: #ffa500;
+        }
+        
+        .status-success {
+            background: #4CAF50;
+        }
+        
+        .status-failed {
+            background: #f44336;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .auto-retry-info {
+            font-size: 0.9em;
+            color: #dda0dd;
+            margin-top: 15px;
+        }
+        
+        .countdown {
+            font-weight: 700;
+            color: #ffb6c1;
+        }
+    </style>
 </head>
 <body>
-    <h1>404 - Page Not Found</h1>
-    <p>	404 에러~ 여긴 꿈나라에여</p>
+    <div class="stars"></div>
+    <div class="moon">🌙</div>
+    
+    <div class="container">
+        <div class="cat">🐱</div>
+        <h1>404</h1>
+        <div class="message">길을 잃었어요!</div>
+        <div class="kawaii-face">(´･ω･`)</div>
+        <div style="color: #dda0dd; font-size: 1.1em; margin-bottom: 20px;">밤하늘에서 페이지를 찾고 있어요...</div>
+        
+        <div class="retry-section">
+            <div class="status-indicator status-checking" id="statusIndicator"></div>
+            <span id="statusText">페이지 상태를 확인하고 있어요...</span>
+            
+            <div style="margin-top: 15px;">
+                <button class="retry-btn" id="manualRetryBtn">
+                    🔄 다시 시도하기
+                </button>
+                <button class="retry-btn" id="goHomeBtn">
+                    🏠 홈으로 가기
+                </button>
+            </div>
+            
+            <div class="auto-retry-info">
+                <span id="countdownText">30초 후 자동으로 다시 시도해요</span>
+                <br>
+                <small>별들이 길을 찾아주면 자동으로 원래 페이지로 돌아가요 ✨</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let retryCount = 0;
+            let maxRetries = 10;
+            let retryInterval = 30000; // 30초
+            let countdownTimer;
+            let retryTimer;
+            let currentCountdown = 30;
+            
+            // 원래 URL 저장 - CSP 환경에서 안전하게 접근
+            let originalUrl;
+            try {
+                originalUrl = window.originalErrorUrl || window.location.href;
+            } catch (e) {
+                originalUrl = window.location.href;
+            }
+            
+            // 별들 생성
+            function createStars() {
+                const starContainer = document.querySelector('.stars');
+                if (!starContainer) return;
+                
+                for (let i = 0; i < 50; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.width = Math.random() * 3 + 1 + 'px';
+                    star.style.height = star.style.width;
+                    star.style.animationDelay = Math.random() * 2 + 's';
+                    star.style.animationDuration = (Math.random() * 3 + 1) + 's';
+                    starContainer.appendChild(star);
+                }
+            }
+            
+            // 유성 생성
+            function createShootingStar() {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = Math.random() * 100 + 'px';
+                shootingStar.style.top = Math.random() * 50 + 'px';
+                shootingStar.style.width = Math.random() * 200 + 100 + 'px';
+                shootingStar.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(shootingStar);
+                
+                setTimeout(() => {
+                    if (shootingStar.parentNode) {
+                        shootingStar.parentNode.removeChild(shootingStar);
+                    }
+                }, 5000);
+            }
+            
+            // 클릭 시 별똥별 폭발 효과
+            function handleClick(e) {
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const star = document.createElement('div');
+                        star.innerHTML = '⭐';
+                        star.style.position = 'fixed';
+                        star.style.left = e.clientX + 'px';
+                        star.style.top = e.clientY + 'px';
+                        star.style.fontSize = '1.5em';
+                        star.style.pointerEvents = 'none';
+                        star.style.zIndex = '1000';
+                        star.style.color = '#ffb6c1';
+                        
+                        const angle = (i / 8) * 2 * Math.PI;
+                        const distance = 50;
+                        const targetX = e.clientX + Math.cos(angle) * distance;
+                        const targetY = e.clientY + Math.sin(angle) * distance;
+                        
+                        star.style.transition = 'all 1s ease-out';
+                        document.body.appendChild(star);
+                        
+                        setTimeout(() => {
+                            star.style.left = targetX + 'px';
+                            star.style.top = targetY + 'px';
+                            star.style.opacity = '0';
+                            star.style.transform = 'scale(2) rotate(180deg)';
+                        }, 50);
+                        
+                        setTimeout(() => {
+                            if (star.parentNode) {
+                                star.parentNode.removeChild(star);
+                            }
+                        }, 1000);
+                    }, i * 100);
+                }
+            }
+            
+            // 페이지 상태 확인 함수
+            async function checkPageStatus() {
+                const statusIndicator = document.getElementById('statusIndicator');
+                const statusText = document.getElementById('statusText');
+                
+                if (statusIndicator) statusIndicator.className = 'status-indicator status-checking';
+                if (statusText) statusText.textContent = '페이지 상태를 확인하고 있어요...';
+                
+                try {
+                    const response = await fetch(originalUrl, {
+                        method: 'HEAD',
+                        cache: 'no-cache'
+                    });
+                    
+                    if (response.ok) {
+                        if (statusIndicator) statusIndicator.className = 'status-indicator status-success';
+                        if (statusText) statusText.textContent = '페이지가 복구되었어요! 이동 중...';
+                        
+                        setTimeout(() => {
+                            window.location.href = originalUrl;
+                        }, 1500);
+                        return true;
+                    } else {
+                        throw new Error('Still not available');
+                    }
+                } catch (error) {
+                    if (statusIndicator) statusIndicator.className = 'status-indicator status-failed';
+                    if (statusText) statusText.textContent = '아직 페이지에 접근할 수 없어요 😅';
+                    return false;
+                }
+            }
+            
+            // 카운트다운 업데이트
+            function updateCountdown() {
+                const countdownText = document.getElementById('countdownText');
+                if (countdownText) {
+                    if (currentCountdown > 0) {
+                        countdownText.innerHTML = '<span class="countdown">' + currentCountdown + '</span>초 후 자동으로 다시 시도해요';
+                        currentCountdown--;
+                    } else {
+                        countdownText.textContent = '재시도 중...';
+                        currentCountdown = 30;
+                    }
+                }
+            }
+            
+            // 자동 재시도 시작
+            function startAutoRetry() {
+                if (retryCount >= maxRetries) {
+                    const countdownText = document.getElementById('countdownText');
+                    if (countdownText) {
+                        countdownText.textContent = '자동 재시도를 중단했어요. 수동으로 시도해주세요.';
+                    }
+                    return;
+                }
+                
+                // 카운트다운 시작
+                countdownTimer = setInterval(updateCountdown, 1000);
+                
+                // 재시도 타이머
+                retryTimer = setTimeout(async () => {
+                    clearInterval(countdownTimer);
+                    retryCount++;
+                    
+                    const success = await checkPageStatus();
+                    if (!success) {
+                        currentCountdown = 30;
+                        startAutoRetry();
+                    }
+                }, retryInterval);
+            }
+            
+            // 수동 재시도
+            async function manualRetry() {
+                clearTimeout(retryTimer);
+                clearInterval(countdownTimer);
+                
+                const success = await checkPageStatus();
+                if (!success) {
+                    currentCountdown = 10; // 수동 재시도 후엔 10초로 단축
+                    retryInterval = 10000;
+                    startAutoRetry();
+                }
+            }
+            
+            // 홈으로 가기
+            function goHome() {
+                try {
+                    const homeUrls = [
+                        new URL('/', window.location.origin).href,
+                        window.location.origin,
+                        'https://www.google.com'
+                    ];
+                    
+                    window.location.href = homeUrls[0];
+                } catch (error) {
+                    window.location.href = 'https://www.google.com';
+                }
+            }
+            
+            // 초기화
+            document.addEventListener('DOMContentLoaded', () => {
+                createStars();
+                
+                // 유성 생성 간격
+                setInterval(createShootingStar, 4000);
+                
+                // 클릭 이벤트 리스너
+                document.addEventListener('click', handleClick);
+                
+                // 버튼 이벤트 리스너
+                const manualRetryBtn = document.getElementById('manualRetryBtn');
+                const goHomeBtn = document.getElementById('goHomeBtn');
+                
+                if (manualRetryBtn) {
+                    manualRetryBtn.addEventListener('click', manualRetry);
+                }
+                
+                if (goHomeBtn) {
+                    goHomeBtn.addEventListener('click', goHome);
+                }
+                
+                // 3초 후 첫 번째 체크
+                setTimeout(async () => {
+                    const success = await checkPageStatus();
+                    if (!success) {
+                        startAutoRetry();
+                    }
+                }, 3000);
+            });
+            
+            // 페이지 이탈 시 타이머 정리
+            window.addEventListener('beforeunload', () => {
+                clearTimeout(retryTimer);
+                clearInterval(countdownTimer);
+            });
+        })();
+    </script>
 </body>
 </html>

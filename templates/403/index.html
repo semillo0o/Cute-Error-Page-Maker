@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 - 냥이 경비가 지키고 있어요! 🐱</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .cat-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 154, 158, 0.3);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+            border: 3px solid rgba(255, 154, 158, 0.4);
+            animation: containerFloat 4s ease-in-out infinite;
+        }
+        
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .cat-emoji {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: catGuard 2s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.8));
+        }
+        
+        @keyframes catGuard {
+            0%, 100% { 
+                transform: rotate(-5deg) scale(1);
+                filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.8));
+            }
+            25% { 
+                transform: rotate(5deg) scale(1.1);
+                filter: drop-shadow(0 0 30px rgba(255, 182, 193, 1));
+            }
+            50% { 
+                transform: rotate(0deg) scale(1.05);
+                filter: drop-shadow(0 0 25px rgba(255, 182, 193, 0.9));
+            }
+            75% { 
+                transform: rotate(-3deg) scale(1.08);
+                filter: drop-shadow(0 0 35px rgba(255, 182, 193, 1));
+            }
+        }
+        
+        h1 {
+            color: #ff9a9e;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(255, 154, 158, 0.3);
+            animation: titleBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes titleBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .message {
+            color: #666;
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .kawaii-text {
+            font-size: 1.1em;
+            color: #fecfef;
+            font-style: italic;
+            animation: catTalk 3s ease-in-out infinite;
+        }
+        
+        @keyframes catTalk {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        
+        .guard-status {
+            background: linear-gradient(45deg, rgba(255, 154, 158, 0.15), rgba(254, 207, 239, 0.15));
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 1em;
+            color: #ff9a9e;
+            border: 2px dashed rgba(255, 154, 158, 0.4);
+            animation: guardAlert 3s ease-in-out infinite;
+        }
+        
+        @keyframes guardAlert {
+            0%, 100% { 
+                box-shadow: 0 0 10px rgba(255, 154, 158, 0.3);
+                border-color: rgba(255, 154, 158, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(255, 154, 158, 0.6);
+                border-color: rgba(255, 154, 158, 0.7);
+            }
+        }
+        
+        .warning-signs {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            animation: warningBlink 2s ease-in-out infinite;
+        }
+        
+        @keyframes warningBlink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+        
+        .floating-paws {
+            position: absolute;
+            font-size: 1.5em;
+            color: #ff9a9e;
+            opacity: 0.7;
+            animation: pawFloat 6s linear infinite;
+        }
+        
+        @keyframes pawFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) translateX(80px) rotate(180deg);
+                opacity: 0;
+            }
+        }
+        
+        .cat-scratch {
+            position: fixed;
+            color: #fecfef;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 1000;
+            animation: scratchEffect 1.5s ease-out forwards;
+        }
+        
+        @keyframes scratchEffect {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3) rotate(90deg);
+                opacity: 0;
+            }
+        }
+        
+        .meow-effect {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            color: #ff9a9e;
+            opacity: 0;
+            animation: meowBubble 2s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes meowBubble {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(0) scale(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-50px) scale(1.5);
+            }
+        }
+        
+        .tail-wave {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 2em;
+            animation: tailWag 1s ease-in-out infinite;
+        }
+        
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cat-bg"></div>
+    
+    <div class="container">
+        <div class="warning-signs">⚠️</div>
+        <div class="cat-emoji">🐱</div>
+        <h1>403</h1>
+        <div class="message">냥이 경비가 지키고 있어요!</div>
+        <div class="kawaii-text">여기는 비밀 장소라구요! 냐~옹! (=^･ω･^=)</div>
+        
+        <div class="guard-status">
+            🐾 경비 냥이가 순찰 중... 허가증을 보여주세요!
+        </div>
+        
+        <div class="tail-wave">〰️</div>
+    </div>
+
+    <script>
+        // 떠다니는 발자국들 생성
+        function createFloatingPaws() {
+            const paws = ['🐾', '🐱', '😾', '😸', '😻', '🙀'];
+            const paw = document.createElement('div');
+            paw.className = 'floating-paws';
+            paw.innerHTML = paws[Math.floor(Math.random() * paws.length)];
+            paw.style.left = Math.random() * 100 + 'vw';
+            paw.style.animationDelay = Math.random() * 3 + 's';
+            paw.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.body.appendChild(paw);
+            
+            setTimeout(() => {
+                if (paw.parentNode) {
+                    paw.parentNode.removeChild(paw);
+                }
+            }, 8000);
+        }
+        
+        // 클릭 시 고양이 할퀴기 효과
+        document.addEventListener('click', (e) => {
+            // 냥이 울음소리 효과
+            const container = document.querySelector('.container');
+            const meowEffect = document.createElement('div');
+            meowEffect.className = 'meow-effect';
+            const meows = ['냐~옹!', 'Meow!', '야옹~', 'Nya~'];
+            meowEffect.innerHTML = meows[Math.floor(Math.random() * meows.length)];
+            container.appendChild(meowEffect);
+            
+            setTimeout(() => {
+                if (meowEffect.parentNode) {
+                    meowEffect.parentNode.removeChild(meowEffect);
+                }
+            }, 2000);
+            
+            // 할퀴기 효과
+            const scratchMarks = ['〰️', '💢', '⚡', '💨'];
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const scratch = document.createElement('div');
+                    scratch.className = 'cat-scratch';
+                    scratch.innerHTML = scratchMarks[Math.floor(Math.random() * scratchMarks.length)];
+                    scratch.style.left = (e.clientX + Math.random() * 80 - 40) + 'px';
+                    scratch.style.top = (e.clientY + Math.random() * 80 - 40) + 'px';
+                    document.body.appendChild(scratch);
+                    
+                    setTimeout(() => {
+                        if (scratch.parentNode) {
+                            scratch.parentNode.removeChild(scratch);
+                        }
+                    }, 1500);
+                }, i * 150);
+            }
+        });
+        
+        // 경비 상태 메시지 업데이트
+        const guardMessages = [
+            '🐾 경비 냥이가 순찰 중... 허가증을 보여주세요!',
+            '😾 접근 금지! 여기는 냥이 구역이에요!',
+            '🐱 보안 레벨 MAX! 냥이가 지키고 있어요!',
+            '😸 귀여운 경비원이 당신을 주시하고 있어요!',
+            '🙀 경고! 무단 침입자 발견!',
+            '😻 VIP 전용 구역! 냥이 허가 필요!'
+        ];
+        
+        let messageIndex = 0;
+        const guardStatus = document.querySelector('.guard-status');
+        
+        function updateGuardStatus() {
+            messageIndex = (messageIndex + 1) % guardMessages.length;
+            guardStatus.innerHTML = guardMessages[messageIndex];
+        }
+        
+        // 키보드 입력 시 고양이 반응
+        document.addEventListener('keydown', (e) => {
+            // 고양이들이 화면에 나타나며 경계
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    const cat = document.createElement('div');
+                    cat.className = 'cat-scratch';
+                    const catReactions = ['😾', '🙀', '😸', '🐱'];
+                    cat.innerHTML = catReactions[Math.floor(Math.random() * catReactions.length)];
+                    cat.style.left = Math.random() * window.innerWidth + 'px';
+                    cat.style.top = Math.random() * window.innerHeight + 'px';
+                    document.body.appendChild(cat);
+                    
+                    setTimeout(() => {
+                        if (cat.parentNode) {
+                            cat.parentNode.removeChild(cat);
+                        }
+                    }, 1500);
+                }, i * 200);
+            }
+        });
+        
+        // 마우스 움직임에 따른 고양이 눈 추적 효과
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.85) {
+                const eye = document.createElement('div');
+                eye.className = 'cat-scratch';
+                eye.innerHTML = '👁️';
+                eye.style.left = e.clientX + 'px';
+                eye.style.top = e.clientY + 'px';
+                eye.style.fontSize = '1em';
+                document.body.appendChild(eye);
+                
+                setTimeout(() => {
+                    if (eye.parentNode) {
+                        eye.parentNode.removeChild(eye);
+                    }
+                }, 1000);
+            }
+        });
+        
+        // 주기적으로 발자국 생성
+        setInterval(createFloatingPaws, 2000);
+        
+        // 주기적으로 경비 메시지 업데이트
+        setInterval(updateGuardStatus, 2800);
+        
+        // 초기 발자국들
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createFloatingPaws, i * 600);
+        }
+        
+        // 랜덤 냥 소리 효과
+        function randomMeow() {
+            if (Math.random() > 0.7) {
+                const container = document.querySelector('.container');
+                const meowEffect = document.createElement('div');
+                meowEffect.className = 'meow-effect';
+                meowEffect.innerHTML = '♪ 냐~ ♪';
+                meowEffect.style.left = Math.random() * 100 + '%';
+                container.appendChild(meowEffect);
+                
+                setTimeout(() => {
+                    if (meowEffect.parentNode) {
+                        meowEffect.parentNode.removeChild(meowEffect);
+                    }
+                }, 2000);
+            }
+        }
+        
+        setInterval(randomMeow, 5000);
+    </script>
+</body>
+</html>

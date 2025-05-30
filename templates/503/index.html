@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - 페이지가 숨어버렸어요!</title>
+    <title>503 - 정비 중이에요!</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6, #03a9f4);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -30,36 +30,29 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 30px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             max-width: 600px;
             width: 90%;
-            border: 2px solid rgba(102, 126, 234, 0.3);
         }
         
         .error-code {
             font-size: 4em;
             font-weight: 700;
-            color: #667eea;
+            color: #03a9f4;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            animation: glow 2s ease-in-out infinite alternate;
         }
         
-        @keyframes glow {
-            from { text-shadow: 2px 2px 4px rgba(102, 126, 234, 0.3); }
-            to { text-shadow: 2px 2px 20px rgba(102, 126, 234, 0.8); }
-        }
-        
-        .search-icon {
+        .maintenance-icon {
             font-size: 5em;
-            animation: search 3s infinite;
+            animation: work 3s infinite;
             margin: 20px 0;
             display: inline-block;
         }
         
-        @keyframes search {
-            0%, 100% { transform: rotate(-15deg); }
-            50% { transform: rotate(15deg); }
+        @keyframes work {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
         }
         
         .title {
@@ -76,56 +69,48 @@
             line-height: 1.6;
         }
         
-        .search-box {
-            background: rgba(102, 126, 234, 0.1);
+        .progress-container {
+            background: #e3f2fd;
             border-radius: 25px;
-            padding: 15px 20px;
+            padding: 20px;
             margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
+            border: 2px solid #03a9f4;
         }
         
-        .loading-dots {
-            display: flex;
-            gap: 5px;
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #bbdefb;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin: 15px 0;
         }
         
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #667eea;
-            animation: loading 1.4s infinite ease-in-out;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #03a9f4, #29b6f6, #4fc3f7);
+            border-radius: 10px;
+            animation: maintenance-progress 4s ease-in-out infinite;
+            position: relative;
         }
         
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-        .dot:nth-child(3) { animation-delay: 0s; }
-        
-        @keyframes loading {
-            0%, 80%, 100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            40% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
+        @keyframes maintenance-progress {
+            0% { width: 20%; }
+            50% { width: 80%; }
+            100% { width: 20%; }
         }
         
         .retry-section {
             margin-top: 30px;
             padding: 25px;
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(3, 169, 244, 0.1);
             border-radius: 15px;
-            border: 2px dashed #667eea;
+            border: 2px dashed #03a9f4;
         }
         
         .retry-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #03a9f4, #29b6f6);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -134,13 +119,13 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 15px rgba(3, 169, 244, 0.3);
             margin: 10px;
         }
         
         .retry-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(3, 169, 244, 0.4);
         }
         
         .status-indicator {
@@ -187,10 +172,10 @@
         
         .countdown {
             font-weight: 700;
-            color: #667eea;
+            color: #03a9f4;
         }
         
-        .floating-elements {
+        .floating-tools {
             position: absolute;
             top: 0;
             left: 0;
@@ -200,11 +185,11 @@
             overflow: hidden;
         }
         
-        .search-element {
+        .tool {
             position: absolute;
-            color: rgba(102, 126, 234, 0.2);
+            color: rgba(3, 169, 244, 0.3);
             font-size: 2.5em;
-            animation: float 10s linear infinite;
+            animation: float 8s linear infinite;
         }
         
         @keyframes float {
@@ -223,45 +208,35 @@
                 opacity: 0;
             }
         }
-        
-        .clickable-area {
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        
-        .clickable-area:hover {
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body>
-    <div class="floating-elements" id="elements"></div>
+    <div class="floating-tools" id="tools"></div>
     
-    <div class="container clickable-area">
-        <div class="error-code">404</div>
-        <div class="search-icon">🔍</div>
-        <h1 class="title">페이지가 숨어버렸어요!</h1>
+    <div class="container">
+        <div class="error-code">503</div>
+        <div class="maintenance-icon">🔧</div>
+        <h1 class="title">정비 중이에요!</h1>
         <p class="message">
-            열심히 찾고 있지만 어디에도 없네요 🔎<br>
-            페이지가 숨바꼭질을 하는 것 같아요!
+            잠시 서비스 점검 중입니다 🛠️<br>
+            더 나은 서비스를 위해 열심히 작업하고 있어요!
         </p>
         
-        <div class="search-box">
-            <span>🔍 페이지 검색 중</span>
-            <div class="loading-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+        <div class="progress-container">
+            <div>⚙️ 시스템 업그레이드 진행 중... ⚙️</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
             </div>
+            <div style="font-size: 0.9em; color: #666;">곧 다시 만나요! 😊</div>
         </div>
         
         <div class="retry-section">
             <div class="status-indicator status-checking" id="statusIndicator"></div>
-            <span id="statusText">페이지 상태를 확인하고 있어요...</span>
+            <span id="statusText">서비스 상태를 확인하고 있어요...</span>
             
             <div style="margin-top: 15px;">
                 <button class="retry-btn" id="manualRetryBtn">
-                    🔄 다시 찾기
+                    🔄 다시 시도하기
                 </button>
                 <button class="retry-btn" id="goHomeBtn">
                     🏠 홈으로 가기
@@ -269,9 +244,9 @@
             </div>
             
             <div class="auto-retry-info">
-                <span id="countdownText">30초 후 자동으로 다시 시도해요</span>
+                <span id="countdownText">25초 후 자동으로 다시 시도해요</span>
                 <br>
-                <small>페이지를 찾으면 자동으로 원래 페이지로 돌아가요 🔍✨</small>
+                <small>정비가 완료되면 자동으로 원래 페이지로 돌아가요 🔧✨</small>
             </div>
         </div>
     </div>
@@ -279,11 +254,11 @@
     <script>
         (function() {
             let retryCount = 0;
-            let maxRetries = 10;
-            let retryInterval = 30000; // 30초
+            let maxRetries = 12; 
+            let retryInterval = 25000; // 25초 간격
             let countdownTimer;
             let retryTimer;
-            let currentCountdown = 30;
+            let currentCountdown = 25;
             
             // 원래 URL 저장 - CSP 환경에서 안전하게 접근
             let originalUrl;
@@ -293,26 +268,26 @@
                 originalUrl = window.location.href;
             }
             
-            // 검색 요소 생성
-            function createSearchElement() {
-                const elements = ['🔍', '🔎', '📝', '📄', '📋', '🗂️'];
-                const element = document.createElement('div');
-                element.className = 'search-element';
-                element.innerHTML = elements[Math.floor(Math.random() * elements.length)];
-                element.style.left = Math.random() * 100 + '%';
-                element.style.animationDuration = (Math.random() * 5 + 8) + 's';
-                element.style.animationDelay = Math.random() * 2 + 's';
+            // 도구 생성
+            function createTool() {
+                const tools = ['🔧', '🔨', '⚙️', '🪛', '🛠️', '⚒️'];
+                const tool = document.createElement('div');
+                tool.className = 'tool';
+                tool.innerHTML = tools[Math.floor(Math.random() * tools.length)];
+                tool.style.left = Math.random() * 100 + '%';
+                tool.style.animationDuration = (Math.random() * 5 + 6) + 's';
+                tool.style.animationDelay = Math.random() * 2 + 's';
                 
-                const elementsContainer = document.getElementById('elements');
-                if (elementsContainer) {
-                    elementsContainer.appendChild(element);
+                const toolsContainer = document.getElementById('tools');
+                if (toolsContainer) {
+                    toolsContainer.appendChild(tool);
                 }
                 
                 setTimeout(() => {
-                    if (element.parentNode) {
-                        element.remove();
+                    if (tool.parentNode) {
+                        tool.remove();
                     }
-                }, 13000);
+                }, 11000);
             }
             
             // 페이지 상태 확인 함수
@@ -321,7 +296,7 @@
                 const statusText = document.getElementById('statusText');
                 
                 if (statusIndicator) statusIndicator.className = 'status-indicator status-checking';
-                if (statusText) statusText.textContent = '페이지 상태를 확인하고 있어요...';
+                if (statusText) statusText.textContent = '서비스 상태를 확인하고 있어요...';
                 
                 try {
                     const response = await fetch(originalUrl, {
@@ -331,7 +306,7 @@
                     
                     if (response.ok) {
                         if (statusIndicator) statusIndicator.className = 'status-indicator status-success';
-                        if (statusText) statusText.textContent = '페이지를 찾았어요! 이동 중...';
+                        if (statusText) statusText.textContent = '정비가 완료되었어요! 이동 중...';
                         
                         setTimeout(() => {
                             window.location.href = originalUrl;
@@ -342,7 +317,7 @@
                     }
                 } catch (error) {
                     if (statusIndicator) statusIndicator.className = 'status-indicator status-failed';
-                    if (statusText) statusText.textContent = '아직 페이지를 찾을 수 없어요 🔍';
+                    if (statusText) statusText.textContent = '아직 정비 중이에요 🔧';
                     return false;
                 }
             }
@@ -356,7 +331,7 @@
                         currentCountdown--;
                     } else {
                         countdownText.textContent = '재시도 중...';
-                        currentCountdown = 30;
+                        currentCountdown = 25;
                     }
                 }
             }
@@ -381,7 +356,7 @@
                     
                     const success = await checkPageStatus();
                     if (!success) {
-                        currentCountdown = 30;
+                        currentCountdown = 25;
                         startAutoRetry();
                     }
                 }, retryInterval);
@@ -394,8 +369,8 @@
                 
                 const success = await checkPageStatus();
                 if (!success) {
-                    currentCountdown = 10; // 수동 재시도 후엔 10초로 단축
-                    retryInterval = 10000;
+                    currentCountdown = 15; // 수동 재시도 후엔 15초로 단축
+                    retryInterval = 15000;
                     startAutoRetry();
                 }
             }
@@ -415,57 +390,14 @@
                 }
             }
             
-            // 클릭 효과
-            function handleClick(e) {
-                if (e.target.closest('.retry-btn')) return;
-                
-                for (let i = 0; i < 6; i++) {
-                    setTimeout(() => {
-                        const searchIcon = document.createElement('div');
-                        searchIcon.innerHTML = '🔍';
-                        searchIcon.style.position = 'fixed';
-                        searchIcon.style.left = e.clientX + 'px';
-                        searchIcon.style.top = e.clientY + 'px';
-                        searchIcon.style.fontSize = '1.5em';
-                        searchIcon.style.pointerEvents = 'none';
-                        searchIcon.style.zIndex = '1000';
-                        searchIcon.style.color = '#667eea';
-                        
-                        const angle = (i / 6) * 2 * Math.PI;
-                        const distance = 60;
-                        const targetX = e.clientX + Math.cos(angle) * distance;
-                        const targetY = e.clientY + Math.sin(angle) * distance;
-                        
-                        searchIcon.style.transition = 'all 1s ease-out';
-                        document.body.appendChild(searchIcon);
-                        
-                        setTimeout(() => {
-                            searchIcon.style.left = targetX + 'px';
-                            searchIcon.style.top = targetY + 'px';
-                            searchIcon.style.opacity = '0';
-                            searchIcon.style.transform = 'scale(2) rotate(360deg)';
-                        }, 50);
-                        
-                        setTimeout(() => {
-                            if (searchIcon.parentNode) {
-                                searchIcon.remove();
-                            }
-                        }, 1000);
-                    }, i * 100);
-                }
-            }
-            
             // 페이지 로드 시 초기화
             document.addEventListener('DOMContentLoaded', () => {
-                // 검색 요소 생성
-                for (let i = 0; i < 4; i++) {
-                    setTimeout(() => createSearchElement(), i * 1000);
+                // 도구 생성
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => createTool(), i * 1000);
                 }
                 
-                setInterval(createSearchElement, 3500);
-                
-                // 클릭 이벤트 리스너
-                document.addEventListener('click', handleClick);
+                setInterval(createTool, 3000);
                 
                 // 버튼 이벤트 리스너
                 const manualRetryBtn = document.getElementById('manualRetryBtn');
@@ -496,4 +428,4 @@
         })();
     </script>
 </body>
-</html>
+</html> 

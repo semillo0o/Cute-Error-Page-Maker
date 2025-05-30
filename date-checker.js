@@ -29,14 +29,17 @@ export function getSpecialTemplateIfAny() {
         return solarSpecialDates[key];
     }
 
-    // 2️⃣ 음력 기반 기념일 확인
+    // 2️⃣ 음력 기반 기념일 확인 (기간 체크)
     const lunarMap = lunarHolidays[year];
     if (!lunarMap) return null;
 
-    if (yyyyMMdd === lunarMap.seollal) return "seollal.html";
-    if (yyyyMMdd === lunarMap.chuseok) return "chuseok.html";
-
-    // 🎁 여기에 더 많은 음력 기념일을 추가할 수 있음!
+    for (const [key, holiday] of Object.entries(lunarMap)) {
+        const start = new Date(holiday.start);
+        const end = new Date(holiday.end);
+        if (today >= start && today <= end) {
+            return `${key}.html`;
+        }
+    }
 
     return null;
 }

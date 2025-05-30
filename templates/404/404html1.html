@@ -1,12 +1,402 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="dynamic-title"></title>
+    <title>404 - 페이지를 찾을 수 없어요</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffd1ff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .error-code {
+            font-size: 4em;
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bunny {
+            font-size: 5em;
+            animation: bounce 2s infinite;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        .title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .message {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .retry-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 182, 193, 0.2);
+            border-radius: 15px;
+            border: 2px dashed #ff6b9d;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+            margin: 10px;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+        }
+        
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+        
+        .auto-retry-info {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 15px;
+        }
+        
+        .countdown {
+            font-weight: 700;
+            color: #ff6b9d;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-checking {
+            background: #ffa500;
+        }
+        
+        .status-success {
+            background: #4CAF50;
+        }
+        
+        .status-failed {
+            background: #f44336;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 2em;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>404 - Page Not Found</h1>
-    <p>흑… 여긴 어디죠..?</p>
+    <div class="floating-hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="error-code">404</div>
+        <div class="bunny">🐰</div>
+        <h1 class="title">페이지를 찾을 수 없어요!</h1>
+        <p class="message">
+            앗! 찾고 있는 페이지가 어디론가 사라졌네요 🌸<br>
+            토끼처럼 깡총깡총 다른 곳으로 갔을지도 몰라요!
+        </p>
+        
+        <div class="retry-section">
+            <div class="status-indicator status-checking" id="statusIndicator"></div>
+            <span id="statusText">페이지 상태를 확인하고 있어요...</span>
+            
+            <div style="margin-top: 15px;">
+                <button class="retry-btn" id="manualRetryBtn">
+                    🔄 다시 시도하기
+                </button>
+                <button class="retry-btn" id="goHomeBtn">
+                    🏠 홈으로 가기
+                </button>
+            </div>
+            
+            <div class="auto-retry-info">
+                <span id="countdownText">30초 후 자동으로 다시 시도해요</span>
+                <br>
+                <small>문제가 해결되면 자동으로 원래 페이지로 돌아가요 ✨</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let retryCount = 0;
+            let maxRetries = 10;
+            let retryInterval = 30000; // 30초
+            let countdownTimer;
+            let retryTimer;
+            let currentCountdown = 30;
+            
+            // 원래 URL 저장 - CSP 환경에서 안전하게 접근
+            let originalUrl;
+            try {
+                originalUrl = window.originalErrorUrl || window.location.href;
+            } catch (e) {
+                originalUrl = window.location.href;
+            }
+            
+            // 하트 애니메이션
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                
+                const heartsContainer = document.getElementById('hearts');
+                if (heartsContainer) {
+                    heartsContainer.appendChild(heart);
+                }
+                
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.remove();
+                    }
+                }, 8000);
+            }
+            
+            // 하트 생성 간격
+            setInterval(createHeart, 2000);
+            
+            // 초기 하트들
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createHeart, i * 500);
+            }
+            
+            // 페이지 상태 확인 함수
+            async function checkPageStatus() {
+                const statusIndicator = document.getElementById('statusIndicator');
+                const statusText = document.getElementById('statusText');
+                
+                if (statusIndicator) statusIndicator.className = 'status-indicator status-checking';
+                if (statusText) statusText.textContent = '페이지 상태를 확인하고 있어요...';
+                
+                try {
+                    const response = await fetch(originalUrl, {
+                        method: 'HEAD',
+                        cache: 'no-cache'
+                    });
+                    
+                    if (response.ok) {
+                        if (statusIndicator) statusIndicator.className = 'status-indicator status-success';
+                        if (statusText) statusText.textContent = '페이지가 복구되었어요! 이동 중...';
+                        
+                        setTimeout(() => {
+                            window.location.href = originalUrl;
+                        }, 1500);
+                        return true;
+                    } else {
+                        throw new Error('Still not available');
+                    }
+                } catch (error) {
+                    if (statusIndicator) statusIndicator.className = 'status-indicator status-failed';
+                    if (statusText) statusText.textContent = '아직 페이지에 접근할 수 없어요 😅';
+                    return false;
+                }
+            }
+            
+            // 카운트다운 업데이트
+            function updateCountdown() {
+                const countdownText = document.getElementById('countdownText');
+                if (countdownText) {
+                    if (currentCountdown > 0) {
+                        countdownText.innerHTML = '<span class="countdown">' + currentCountdown + '</span>초 후 자동으로 다시 시도해요';
+                        currentCountdown--;
+                    } else {
+                        countdownText.textContent = '재시도 중...';
+                        currentCountdown = 30;
+                    }
+                }
+            }
+            
+            // 자동 재시도 시작
+            function startAutoRetry() {
+                if (retryCount >= maxRetries) {
+                    const countdownText = document.getElementById('countdownText');
+                    if (countdownText) {
+                        countdownText.textContent = '자동 재시도를 중단했어요. 수동으로 시도해주세요.';
+                    }
+                    return;
+                }
+                
+                // 카운트다운 시작
+                countdownTimer = setInterval(updateCountdown, 1000);
+                
+                // 재시도 타이머
+                retryTimer = setTimeout(async () => {
+                    clearInterval(countdownTimer);
+                    retryCount++;
+                    
+                    const success = await checkPageStatus();
+                    if (!success) {
+                        currentCountdown = 30;
+                        startAutoRetry();
+                    }
+                }, retryInterval);
+            }
+            
+            // 수동 재시도
+            async function manualRetry() {
+                clearTimeout(retryTimer);
+                clearInterval(countdownTimer);
+                
+                const success = await checkPageStatus();
+                if (!success) {
+                    currentCountdown = 10; // 수동 재시도 후엔 10초로 단축
+                    retryInterval = 10000;
+                    startAutoRetry();
+                }
+            }
+            
+            // 홈으로 가기
+            function goHome() {
+                try {
+                    // 가능한 홈 URL들 시도
+                    const homeUrls = [
+                        new URL('/', window.location.origin).href,
+                        window.location.origin,
+                        'https://www.google.com'
+                    ];
+                    
+                    window.location.href = homeUrls[0];
+                } catch (error) {
+                    window.location.href = 'https://www.google.com';
+                }
+            }
+            
+            // 이벤트 리스너 등록 (CSP 안전)
+            document.addEventListener('DOMContentLoaded', () => {
+                const manualRetryBtn = document.getElementById('manualRetryBtn');
+                const goHomeBtn = document.getElementById('goHomeBtn');
+                
+                if (manualRetryBtn) {
+                    manualRetryBtn.addEventListener('click', manualRetry);
+                }
+                
+                if (goHomeBtn) {
+                    goHomeBtn.addEventListener('click', goHome);
+                }
+                
+                // 3초 후 첫 번째 체크
+                setTimeout(async () => {
+                    const success = await checkPageStatus();
+                    if (!success) {
+                        startAutoRetry();
+                    }
+                }, 3000);
+            });
+            
+            // 페이지 이탈 시 타이머 정리
+            window.addEventListener('beforeunload', () => {
+                clearTimeout(retryTimer);
+                clearInterval(countdownTimer);
+            });
+        })();
+    </script>
 </body>
 </html>

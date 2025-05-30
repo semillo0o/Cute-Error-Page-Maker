@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>504 - 게이트웨이가 늦잠 중이에요! 😴</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #89f7fe 0%, #66a6ff 100%);
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            opacity: 0.6;
+            animation: float 20s linear infinite;
+        }
+        
+        .cloud:before,
+        .cloud:after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(102, 166, 255, 0.3);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .sleepy-emoji {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: sleep 3s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes sleep {
+            0%, 100% { transform: rotate(-3deg) scale(1); }
+            25% { transform: rotate(0deg) scale(0.95); }
+            50% { transform: rotate(3deg) scale(1); }
+            75% { transform: rotate(0deg) scale(0.95); }
+        }
+        
+        h1 {
+            color: #66a6ff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            animation: slowPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes slowPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.8; }
+        }
+        
+        .message {
+            color: #666;
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .kawaii-text {
+            font-size: 1.1em;
+            color: #89f7fe;
+            font-style: italic;
+            animation: sleepyText 4s ease-in-out infinite;
+        }
+        
+        @keyframes sleepyText {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        .floating-zzz {
+            position: absolute;
+            font-size: 2em;
+            color: #66a6ff;
+            opacity: 0.6;
+            animation: zzzFloat 4s ease-in-out infinite;
+        }
+        
+        @keyframes zzzFloat {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+                transform: translateY(80vh) scale(1);
+            }
+            80% {
+                opacity: 0.6;
+                transform: translateY(20vh) scale(1);
+            }
+            100% {
+                transform: translateY(-100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        .timeout-indicator {
+            background: rgba(102, 166, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 1em;
+            color: #66a6ff;
+            animation: timeout 3s ease-in-out infinite;
+        }
+        
+        @keyframes timeout {
+            0%, 100% { background: rgba(102, 166, 255, 0.1); }
+            50% { background: rgba(102, 166, 255, 0.2); }
+        }
+        
+        .sleepy-effect {
+            position: fixed;
+            color: #89f7fe;
+            font-size: 1.5em;
+            pointer-events: none;
+            z-index: 1000;
+            animation: sleepyPop 2s ease-out forwards;
+        }
+        
+        @keyframes sleepyPop {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2) rotate(15deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) rotate(30deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds"></div>
+    
+    <div class="container">
+        <div class="sleepy-emoji">😴</div>
+        <h1>504</h1>
+        <div class="message">게이트웨이가 늦잠 중이에요!</div>
+        <div class="kawaii-text">zzZ... 응답이 너무 늦어요... zzZ (˘▾˘)~♪</div>
+        <div class="timeout-indicator">
+            ⏱️ 서버가 꿈나라에 빠져있어요... 잠시 후 다시 시도해보세요!
+        </div>
+    </div>
+
+    <script>
+        // 구름 생성
+        function createCloud() {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            
+            const size = Math.random() * 60 + 40;
+            cloud.style.width = size + 'px';
+            cloud.style.height = size * 0.6 + 'px';
+            cloud.style.top = Math.random() * 50 + '%';
+            cloud.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            cloud.style.animationDelay = Math.random() * 5 + 's';
+            
+            document.querySelector('.clouds').appendChild(cloud);
+            
+            setTimeout(() => {
+                if (cloud.parentNode) {
+                    cloud.parentNode.removeChild(cloud);
+                }
+            }, 25000);
+        }
+        
+        // 떠다니는 Z 생성
+        function createFloatingZzz() {
+            const zzzTexts = ['💤', 'zzZ', 'Z', '😴', '💭'];
+            const zzz = document.createElement('div');
+            zzz.className = 'floating-zzz';
+            zzz.innerHTML = zzzTexts[Math.floor(Math.random() * zzzTexts.length)];
+            zzz.style.left = Math.random() * 100 + 'vw';
+            zzz.style.animationDelay = Math.random() * 2 + 's';
+            zzz.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(zzz);
+            
+            setTimeout(() => {
+                if (zzz.parentNode) {
+                    zzz.parentNode.removeChild(zzz);
+                }
+            }, 6000);
+        }
+        
+        // 클릭 시 졸린 효과
+        document.addEventListener('click', (e) => {
+            const sleepyEmojis = ['😴', '💤', 'zzZ', '😪', '🥱'];
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const sleepy = document.createElement('div');
+                    sleepy.className = 'sleepy-effect';
+                    sleepy.innerHTML = sleepyEmojis[Math.floor(Math.random() * sleepyEmojis.length)];
+                    sleepy.style.left = (e.clientX + Math.random() * 80 - 40) + 'px';
+                    sleepy.style.top = (e.clientY + Math.random() * 80 - 40) + 'px';
+                    document.body.appendChild(sleepy);
+                    
+                    setTimeout(() => {
+                        if (sleepy.parentNode) {
+                            sleepy.parentNode.removeChild(sleepy);
+                        }
+                    }, 2000);
+                }, i * 300);
+            }
+        });
+        
+        // 주기적으로 구름과 Z 생성
+        setInterval(createCloud, 3000);
+        setInterval(createFloatingZzz, 2000);
+        
+        // 초기 구름들과 Z들
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createCloud, i * 1000);
+            setTimeout(createFloatingZzz, i * 800);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>400 - 요청이 이상해요! (°△°)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .confused-emoji {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: confused 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes confused {
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            25% { transform: rotate(5deg) scale(1.1); }
+            50% { transform: rotate(-3deg) scale(1); }
+            75% { transform: rotate(3deg) scale(1.1); }
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .message {
+            color: #666;
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .kawaii-text {
+            font-size: 1.1em;
+            color: #764ba2;
+            font-style: italic;
+            animation: shake 3s ease-in-out infinite;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .floating-question {
+            position: absolute;
+            font-size: 2em;
+            color: #667eea;
+            opacity: 0.7;
+            animation: floatUpQuestion 4s linear infinite;
+        }
+        
+        @keyframes floatUpQuestion {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .bubble {
+            position: fixed;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: bubbleFloat 3s ease-out forwards;
+        }
+        
+        @keyframes bubbleFloat {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-50px) scale(1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="confused-emoji">🤔</div>
+        <h1>400</h1>
+        <div class="message">요청이 이상해요!</div>
+        <div class="kawaii-text">뭔가... 잘못된 것 같은데요? (°△°)</div>
+        <div style="margin-top: 20px; color: #999; font-size: 1em;">
+            요청 형식을 다시 확인해주세요!
+        </div>
+    </div>
+
+    <script>
+        // 떠다니는 물음표 생성
+        function createFloatingQuestion() {
+            const questions = ['❓', '❔', '🤷‍♀️', '🤷‍♂️'];
+            const question = document.createElement('div');
+            question.className = 'floating-question';
+            question.innerHTML = questions[Math.floor(Math.random() * questions.length)];
+            question.style.left = Math.random() * 100 + 'vw';
+            question.style.animationDelay = Math.random() * 2 + 's';
+            question.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(question);
+            
+            setTimeout(() => {
+                if (question.parentNode) {
+                    question.parentNode.removeChild(question);
+                }
+            }, 7000);
+        }
+        
+        // 클릭 시 버블 효과
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    const size = Math.random() * 50 + 20;
+                    bubble.style.width = size + 'px';
+                    bubble.style.height = size + 'px';
+                    bubble.style.left = (e.clientX + Math.random() * 100 - 50) + 'px';
+                    bubble.style.top = (e.clientY + Math.random() * 100 - 50) + 'px';
+                    document.body.appendChild(bubble);
+                    
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.parentNode.removeChild(bubble);
+                        }
+                    }, 3000);
+                }, i * 100);
+            }
+        });
+        
+        // 주기적으로 물음표 생성
+        setInterval(createFloatingQuestion, 1500);
+        
+        // 초기 물음표들
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createFloatingQuestion, i * 800);
+        }
+    </script>
+</body>
+</html> 

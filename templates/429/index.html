@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>429 - 너무 많이 요청했어요! (>﹏<)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffb4b4);
+            background-size: 400% 400%;
+            animation: pulseBackground 3s ease infinite;
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        @keyframes pulseBackground {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 107, 107, 0.3);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+            animation: containerShake 4s ease-in-out infinite;
+        }
+        
+        @keyframes containerShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        
+        .tired-emoji {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: exhausted 2s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes exhausted {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(0.9) rotate(-2deg); }
+            50% { transform: scale(1.1) rotate(0deg); }
+            75% { transform: scale(0.95) rotate(2deg); }
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            animation: numberPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .message {
+            color: #666;
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .kawaii-text {
+            font-size: 1.1em;
+            color: #ff8e8e;
+            font-style: italic;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .floating-alerts {
+            position: absolute;
+            font-size: 1.5em;
+            color: #ff6b6b;
+            opacity: 0.8;
+            animation: alertFloat 3s linear infinite;
+        }
+        
+        @keyframes alertFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .rush-effect {
+            position: fixed;
+            color: #ff6b6b;
+            font-size: 1.2em;
+            pointer-events: none;
+            z-index: 1000;
+            animation: rushOut 1s ease-out forwards;
+        }
+        
+        @keyframes rushOut {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) translateY(-50px);
+                opacity: 0;
+            }
+        }
+        
+        .timer {
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 1em;
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tired-emoji">😵‍💫</div>
+        <h1>429</h1>
+        <div class="message">너무 많이 요청했어요!</div>
+        <div class="kawaii-text">잠깐... 숨 좀 돌려주세요! (>﹏<)</div>
+        <div class="timer">
+            ⏰ 조금만 기다린 후에 다시 시도해주세요~
+        </div>
+    </div>
+
+    <script>
+        // 떠다니는 경고 아이콘 생성
+        function createFloatingAlert() {
+            const alerts = ['⚠️', '🚨', '⏰', '🛑', '📢'];
+            const alert = document.createElement('div');
+            alert.className = 'floating-alerts';
+            alert.innerHTML = alerts[Math.floor(Math.random() * alerts.length)];
+            alert.style.left = Math.random() * 100 + 'vw';
+            alert.style.animationDelay = Math.random() * 2 + 's';
+            alert.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 5000);
+        }
+        
+        // 클릭 시 "급한" 효과
+        document.addEventListener('click', (e) => {
+            const rushTexts = ['급해!', '빨리!', '더!', '많이!', '계속!'];
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    const rush = document.createElement('div');
+                    rush.className = 'rush-effect';
+                    rush.innerHTML = rushTexts[Math.floor(Math.random() * rushTexts.length)];
+                    rush.style.left = (e.clientX + Math.random() * 100 - 50) + 'px';
+                    rush.style.top = (e.clientY + Math.random() * 100 - 50) + 'px';
+                    document.body.appendChild(rush);
+                    
+                    setTimeout(() => {
+                        if (rush.parentNode) {
+                            rush.parentNode.removeChild(rush);
+                        }
+                    }, 1000);
+                }, i * 200);
+            }
+        });
+        
+        // 카운트다운 타이머 시뮬레이션
+        let countdown = 30;
+        const timerElement = document.querySelector('.timer');
+        
+        function updateTimer() {
+            countdown--;
+            if (countdown <= 0) {
+                countdown = 30;
+                timerElement.innerHTML = '⏰ 이제 다시 시도해볼 수 있어요! 하지만 천천히~';
+                setTimeout(() => {
+                    timerElement.innerHTML = '⏰ 조금만 기다린 후에 다시 시도해주세요~';
+                }, 2000);
+            } else {
+                timerElement.innerHTML = `⏰ ${countdown}초 후에 다시 시도해주세요~`;
+            }
+        }
+        
+        // 주기적으로 경고 아이콘 생성
+        setInterval(createFloatingAlert, 1000);
+        
+        // 타이머 업데이트
+        setInterval(updateTimer, 1000);
+        
+        // 초기 경고들
+        for (let i = 0; i < 4; i++) {
+            setTimeout(createFloatingAlert, i * 400);
+        }
+    </script>
+</body>
+</html> 
